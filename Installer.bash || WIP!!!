@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "Welcome to emerge installer"
+echo "-----------------------------------------"
+echo "Please choose your distro to install the main handler file."
+echo "Arch [1]"
+echo "Fedora [2]"
+echo "Ubuntu [3]"
+echo "Debian [4]"
+echo "Mint [5]"
+echo "RedHat [6]"
+read -p "select (1-6): " choice
+
+base_url="https://raw.githubusercontent.com/StefanMarston/emerge/main/bashscr"
+
+case "$choice" in
+    1)
+        file="emerge-archlinux-handler.bash"
+        ;;
+    2)
+        file="emerge-fedora-handler.bash"
+        ;;
+    3)
+        file="emerge-ubuntu-handler.bash"
+        ;;
+    4)
+        file="emerge-debian-handler.bash"
+        ;;
+    5)
+        file="emerge-mint-handler.bash"
+        ;;
+    6)
+        file="emerge-redhat-handler.bash"
+        ;;
+    *)
+        echo "Invalid selection."
+        exit 1
+        ;;
+esac
+
+echo "Downloading $file..."
+curl -fsSL "$base_url/$file" -o "$HOME/$file" || { echo "Download failed!"; exit 1; }
+
+echo "Adding to .bashrc..."
+echo "source \$HOME/$file" >> "$HOME/.bashrc"
+
+echo "Handler installed! Please restart your terminal or run: source \$HOME/.bashrc"
